@@ -1,0 +1,7 @@
+Before writing code, a main class must be created. Sometimes the IDE creates it by itself.
+use sout to print information.
+taking input requires a "scanner"
+if statements are relatively the same as python
+lists/arrays can be traversed just like in python
+variables and arrays must be specified.
+try/catch works the same way as try/except

@@ -1,18 +1,89 @@
 package lab3;
 
+import lab3.game.Board;
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        do {
+            // Initialize game
+            Board board = new Board();
+            char player = 'X';
 
-        // TODO: Initialize a TicTacToe game with a 3x3 board and two players
+            while (true) {
+                board.printBoard();
+                makeMove(board.getBoard(), player, sc);
 
-        while (true) {
-            // TODO: Display the board
+                if (checkState(board.getBoard(), player)) {
+                    board.printBoard();
+                    System.out.println("Player " + player + " won!");
+                    break;
+                } else if (Draw(board.getBoard())) {
+                    board.printBoard();
+                    System.out.println("DRAW");
+                    break;
+                }
+                player = (player == 'X') ? 'O' : 'X';
+            }
 
-            // TODO: Check if the game is over or a draw, and if so display the result and exit
+            System.out.println("Do you want to play again? (Y/N): ");
+            String playAgain = sc.next().toUpperCase();
+            if (!playAgain.equals("Y")) {
+                break;
+            }
             
-            // TODO: Get the next move from the player and update the game state
+        } while (true);
+        
+        sc.close();
+    }
 
+    public static boolean checkState(char[][] board, char player) {
+        for (int i = 0; i < 3; i++){
+            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return true;
+            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return true;
+        }
+        if(board[0][0] == player && board[1][1] == player && board[2][2] == player) return true;
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return true;
+        else return false;
+    }
+
+    public static boolean Draw(char[][] board) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void makeMove(char[][] board, char player, Scanner sc) {
+        int row, col;
+        while (true) {
+            System.out.println("Player " + player + ", your turn!");
+            try {
+                System.out.print("Enter row (1-3) ");
+                row = sc.nextInt() - 1;
+                System.out.print("Enter column (1-3) ");
+                col = sc.nextInt() - 1;
+                if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+                    if (board[row][col] == ' ') {
+                        board[row][col] = player;
+                        break;
+                    } else {
+                        System.out.println("Position taken. Try again");
+                    }
+                } else {
+                    System.out.println("Not a position on the board");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Please enter only numbers");
+                sc.nextLine();
+            }
         }
     }
 }

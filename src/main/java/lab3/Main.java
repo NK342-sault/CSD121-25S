@@ -40,6 +40,14 @@ public class Main {
         sc.close();
     }
 
+    /**
+     * Checks if the state of the board is a win for the given player
+     * The state of the board is a win if the player has three in a row in any direction on the board
+     * (vertical, horizontal, or diagonal)
+     * @param board the board to check
+     * @param player the player to check for a win
+     * @return true if the player has won, false otherwise
+     */
     public static boolean checkState(char[][] board, char player) {
         for (int i = 0; i < 3; i++){
             if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return true;
@@ -61,6 +69,12 @@ public class Main {
         return true;
     }
 
+    /**
+     * Makes a move on the board for the given player
+     * @param board the board to make a move on
+     * @param player the player to make a move for
+     * @param sc the scanner to read user input from
+     */
     public static void makeMove(char[][] board, char player, Scanner sc) {
         int row, col;
         while (true) {

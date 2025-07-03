@@ -1,7 +1,11 @@
 package lab4.ui;
 
+import com.diogonunes.jcolor.AnsiFormat;
+import com.diogonunes.jcolor.Attribute;
 import lab4.game.*;
 
+import javax.swing.*;
+import javax.swing.text.AttributeSet;
 import java.util.Scanner;
 
 /**
@@ -50,7 +54,8 @@ public class Console {
             var input = scanner.nextLine().trim();
 
             if ( input.length() != 3 ) {
-                System.out.println(helpMessage);
+                AnsiFormat message = new AnsiFormat(Attribute.RED_TEXT());
+                System.out.println(message.format(helpMessage));
                 continue;
             }
 
@@ -67,7 +72,8 @@ public class Console {
                 var pos = new Position(Row.from(parts[0]), Col.from(parts[1]));
 
                 if (board.isOccupiedAt(pos)) {
-                    System.out.println("That position is already taken.");
+                    AnsiFormat message = new AnsiFormat(Attribute.RED_TEXT());
+                    System.out.println(message.format("That position is already taken."));
                     continue;
                 }
 

@@ -1,0 +1,5 @@
+HumanPlayer is a subclass of Player, which means that HumanPlayer is a Player. This allows a HumanPlayer object to be used at the same places you can use a Player object.
+
+The whoseTurn variable is of type Player. However, after moving the pickNextMove method to HumanPlayer, TicTacToeGame was still trying to use the method through a reference. After declaring it as an abstract method, it allows all subclasses to implement this method, allowing whoseTurn to have access to this method.
+
+The abstract Player class defines a common interface through the pickNextMove method, which is implemented differently by each player. TicTacToeGame only knows about the abstract Player class, not its other implementations, and when whoseTurn.pickNextMove(board) is called, the correct implementation runs automatically. This means that new players with different movesets can be added as long as they are subclasses of Player and there is no need to change any other part of the game. 

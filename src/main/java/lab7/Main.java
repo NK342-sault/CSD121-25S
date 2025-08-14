@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -27,6 +28,17 @@ public class Main {
     }
 
     // TODO: implement the searchRecipes method
+    public static List<Recipe> searchRecipes(DataService dataService, String query) {
+        try {
+            var recipes = dataService.getRecipes();
+            return recipes.stream().filter(r -> r.name().toLowerCase().contains(query.toLowerCase())
+                    || r.description().toLowerCase().contains(query.toLowerCase())).toList();
+        }catch (Exception e) {
+            logger.error("Error while searching recipes: " + e.getMessage());
+            logger.debug("Stack trace: " + Arrays.toString(e.getStackTrace()));
+            return List.of();
+        }
+    }
 
     public static void main(String[] args) {
         // Here, we INJECT a concrete implementation of the DataService interface
@@ -36,5 +48,12 @@ public class Main {
         quickRecipes.forEach(System.out::println);
 
         // TODO: use your searchRecipes method with a SqliteDataService object
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nEnter any search term for recipes:");
+        String searchTerm = scanner.nextLine();
+
+        var searchResults = searchRecipes(new SqliteDataService(), searchTerm);
+        System.out.println("\nFound " + searchResults.size() + " recipes matching '" + searchTerm + "':");
+        searchResults.forEach(System.out::println);
     }
 }

@@ -55,5 +55,32 @@ class MainTest {
     }
 
     // TODO: test the searchRecipes method
+    @Test
+    void testSearchRecipesByName() {
+        var recipes  = Main.searchRecipes(() -> List.of(
+                new Recipe(1, "Chicken Soup", "A basic soup", "", 4, 10, 20, 30),
+                new Recipe(2, "Beef Stew", "A hearty stew", "", 6, 15, 120, 135)
+        ), "Chicken");
 
+        assertEquals(1, recipes.size());
+        assertEquals("Chicken Soup", recipes.get(0).name());
+    }
+
+    @Test
+    void testSearchRecipesNameCaseInsensitive(){
+        var recipes = Main.searchRecipes(() -> List.of(
+                new Recipe(1, "CHICKEN Soup", "A basic soup", "", 4, 10, 20, 30),
+                new Recipe(2, "Beef Stew", "A hearty stew", "", 6, 15, 120, 135)
+        ), "chicken");
+        assertEquals(1, recipes.size());
+        assertEquals("CHICKEN Soup", recipes.get(0).name());
+    }
+
+    @Test
+    void testSearchMatchesInNameAndDescription(){
+        var recipes  = Main.searchRecipes(() -> List.of(
+                new Recipe(1, "Chicken Soup", "A chicken based soup", "", 4, 10, 20, 30),
+                new Recipe(2, "Beef with chicken", "Contains chicken stock", "", 6, 15, 120, 135)
+        ), "chicken");
+    }
 }
